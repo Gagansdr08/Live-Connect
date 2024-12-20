@@ -6,12 +6,18 @@ import { getSender } from "../Authentication/Chatlogics";
 import axios from "axios";
 import "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/Authentication/styles.css";
 import ScrollableChat from "./ScrollableChat";
+import io from "socket.io-client";
+
+const ENDPOINT = "http://localhost:5001";
+var socket, selectedChatCompare;
+
 const SingleChat = () => {
-  const { selectedChat, setSelectedChat, user } = ChatState();
+  const { selectedChat, setSelectedChat, user, notification, setNotification } =
+    ChatState();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
-  // const [socketConnected, setSocketConnected] = useState(false);
+  const [socketConnected, setSocketConnected] = useState(false);
   // const [typing, setTyping] = useState(false);
   // const [istyping, setIsTyping] = useState(false);
 
@@ -36,6 +42,8 @@ const SingleChat = () => {
 
       setMessages(data);
       setLoading(false);
+
+      socket.emit("join chat", selectedChat._id);
     } catch (error) {
       toaster.create({
         title: "Error Occured!",
@@ -49,7 +57,18 @@ const SingleChat = () => {
   };
 
   useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on("connected", () => setSocketConnected(true));
+    // socket.on("typing", () => setIsTyping(true));
+    // socket.on("stop typing", () => setIsTyping(false));
+
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
     fetchMessages();
+    selectedChatCompare = selectedChat;
   }, [selectedChat]); // this is whenever user changes the chat , then also we are calling fetchMessages
 
   const sendmessage = async (event) => {
@@ -71,6 +90,8 @@ const SingleChat = () => {
           config
         );
 
+        socket.emit("new message", data); //the newMessage should be same as what is in server.js
+
         setMessages([...messages, data]);
       } catch (error) {
         toaster.create({
@@ -89,6 +110,18 @@ const SingleChat = () => {
 
     //typing indicatar logic
   };
+
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved) => {
+      if (
+        !selectedChatCompare || // if chat is not selected or doesn't match current chat
+        selectedChatCompare._id !== newMessageRecieved.chat._id
+      ) {
+      } else {
+        setMessages([...messages, newMessageRecieved]);
+      }
+    });
+  });
 
   return (
     <>

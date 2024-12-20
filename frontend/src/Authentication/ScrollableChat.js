@@ -1,7 +1,7 @@
 import { Avatar } from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/components/ui/avatar";
 import { Tooltip } from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/components/ui/tooltip.jsx";
 import React from "react";
-import ScrollableFeed from "react-scrollable-feed";
+// import ScrollableFeed from "react-scrollable-feed";
 import {
   isLastMessage,
   isSameSender,
@@ -15,7 +15,7 @@ const ScrollableChat = ({ messages }) => {
   console.log("User:", user);
   console.log("Messages:", messages);
   return (
-    <ScrollableFeed>
+    <div>
       {messages &&
         messages.map((m, i) => (
           <div style={{ display: "flex" }} key={m._id}>
@@ -47,7 +47,7 @@ const ScrollableChat = ({ messages }) => {
             </span>
           </div>
         ))}
-    </ScrollableFeed>
+    </div>
   );
 };
 
