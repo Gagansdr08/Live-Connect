@@ -1,5 +1,5 @@
 # Live-Connect
-A Full Stack Chatting App(MERN). Uses Socket.io for real time communication and stores user details in encrypted format in Mongo DB Database.
+A Full Stack Chatting App(MERN). Uses Socket.io for real time communication and stores user details in encrypted format in Mongo DB Database.Key features include User Authentication (login/signup), Live Chatting, and Real-Time Notifications, all providing a smooth and user-friendly experience.
 ### User Registration :
 <img width="1440" alt="Screenshot 2024-12-25 at 8 46 46 PM" src="https://github.com/user-attachments/assets/e685b5ba-6e0b-4483-a0a2-9d091bf80e20" />
 
