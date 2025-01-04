@@ -1,7 +1,7 @@
 import React from "react";
 import { Field } from "../components/ui/field";
 import { Input } from "@chakra-ui/react";
-//import { useToast } from "@chakra-ui/react";
+// import { useToast } from "@chakra-ui/react";
 import { Button, Fieldset, Stack } from "@chakra-ui/react";
 import { toaster } from "../components/ui/toaster";
 import axios from "axios";
@@ -14,14 +14,13 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
+
   const submitHandler = async () => {
     if (!email || !password) {
       toaster.create({
         title: "Please Fill all the Feilds",
-        status: "warning",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom",
+        type: "error",
+        duration: 4000,
       });
       return;
     }
@@ -40,9 +39,9 @@ const Login = () => {
       );
 
       toaster.create({
-        title: "Login Successful",
-        status: "success",
-        duration: 5000,
+        title: "Login Successful , Please RELOAD if not rendered",
+        type: "success",
+        duration: 6000,
         isClosable: true,
         position: "bottom",
       });
@@ -53,8 +52,8 @@ const Login = () => {
       toaster.create({
         title: "Error Occured!",
         description: error.response.data.message,
-        status: "error",
-        duration: 5000,
+        type: "error",
+        duration: 4000,
         isClosable: true,
         position: "bottom",
       });
@@ -83,7 +82,16 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <Button h="1.75rem" size="sm" onClick={handleClick}>
+          <Button
+            h="1.75rem"
+            size="sm"
+            onClick={handleClick}
+            variant="outline"
+            color="black"
+            _hover={{
+              color: "white",
+            }}
+          >
             {show ? "Hide" : "Show"}
           </Button>
         </Field>

@@ -1,4 +1,4 @@
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Badge, Box, Button, Text } from "@chakra-ui/react";
 import { Tooltip } from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/components/ui/tooltip.jsx";
 import { ChatState } from "../../context/chatProvider";
 import { Avatar } from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/components/ui/avatar";
@@ -27,6 +27,7 @@ import axios from "axios";
 import { toaster } from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/components/ui/toaster.jsx";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
+import { getSender } from "../Chatlogics";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -34,7 +35,14 @@ const SideDrawer = () => {
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
 
-  const { user, chats, setSelectedChat, setChats } = ChatState();
+  const {
+    user,
+    chats,
+    setSelectedChat,
+    setChats,
+    notification,
+    setNotification,
+  } = ChatState();
 
   const [open, setOpen] = useState(false);
 
@@ -101,6 +109,7 @@ const SideDrawer = () => {
 
       setLoading(false);
       setSelectedChat(data);
+      setLoadingChat(false);
       setOpen(false);
     } catch (error) {
       toaster.create({
@@ -131,6 +140,7 @@ const SideDrawer = () => {
             color="black"
             _hover={{
               color: "white", // Text color on hover
+              bg: "#38B2AC",
             }}
           >
             <Text
@@ -153,29 +163,77 @@ const SideDrawer = () => {
                 variant="outline"
                 size="sm"
                 color="black"
+                bg="white"
                 _hover={{
                   color: "white", // Text color on hover
+                  bg: "#38B2AC",
                 }}
               >
-                Notification
+                Notification 🔔
+                {notification.length > 0 && (
+                  <Badge color="white" ml={2} bg="red">
+                    {notification.length}
+                  </Badge>
+                )}
               </Button>
             </MenuTrigger>
-            <MenuContent>
-              <MenuItem value="new-txt">New Text File</MenuItem>
-              <MenuItem value="new-file">New File...</MenuItem>
-              <MenuItem value="new-win">New Window</MenuItem>
-              <MenuItem value="open-file">Open File...</MenuItem>
-              <MenuItem value="export">Export</MenuItem>
+            <MenuContent
+              overflowY="auto" //  scrolling if content overflows
+              bg="#38B2AC"
+            >
+              <MenuItem
+                _hover={{
+                  bg: "white",
+                  color: "black",
+                }}
+              >
+                {!notification.length && "No New Messages"}
+                {notification.map((notif) => (
+                  <MenuItem
+                    key={notif._id}
+                    onClick={() => {
+                      setSelectedChat(notif.chat);
+                      setNotification(notification.filter((n) => n !== notif));
+                    }}
+                    bg="#38B2AC"
+                    color="white"
+                    _hover={{
+                      bg: "white",
+                      color: "black",
+                    }}
+                  >
+                    New message from {getSender(user, notif.chat.users)}
+                  </MenuItem>
+                ))}
+              </MenuItem>
             </MenuContent>
           </MenuRoot>
           <MenuRoot>
             <MenuTrigger asChild>
               <Button size="sm">
-                <Avatar name={user.name} />
+                <Avatar name={user.name} bg="#38B2AC" />
               </Button>
             </MenuTrigger>
-            <MenuContent>
-              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+            <MenuContent bg="#38B2AC">
+              <MenuItem
+                bg="#38B2AC"
+                _hover={{
+                  bg: "white",
+                  color: "black",
+                }}
+              >
+                Username: {user.name}
+              </MenuItem>
+              <MenuItem
+                bg="#38B2AC"
+                onClick={logoutHandler}
+                _hover={{
+                  bg: "white",
+                  color: "black",
+                }}
+              >
+                Logout
+              </MenuItem>
             </MenuContent>
           </MenuRoot>
         </div>
@@ -216,9 +274,10 @@ const SideDrawer = () => {
           </DrawerBody>
           <DrawerFooter>
             <DrawerActionTrigger asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button variant="outline" bg="white" color="black">
+                Cancel
+              </Button>
             </DrawerActionTrigger>
-            <Button>Save</Button>
           </DrawerFooter>
           <DrawerCloseTrigger />
         </DrawerContent>

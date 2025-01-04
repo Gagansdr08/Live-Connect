@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "./components/ui/provider";
 import { BrowserRouter } from "react-router-dom";
 import ChatProvider from "./context/chatProvider";
+import { Toaster } from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/components/ui/toaster.jsx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,6 +14,7 @@ root.render(
     <BrowserRouter>
       <ChatProvider>
         <App />
+        <Toaster />
       </ChatProvider>
     </BrowserRouter>
   </Provider>,

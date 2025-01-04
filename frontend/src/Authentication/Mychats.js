@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { toaster } from "../components/ui/toaster";
 import { ChatState } from "../context/chatProvider";
 import axios from "axios";
-import { Box, Button, Stack, Text } from "@chakra-ui/react";
+import { Box, Stack, Text } from "@chakra-ui/react";
 import { getSender } from "./Chatlogics";
 import ChatLoading from "./ChatLoading";
-import GroupChatModal from "./miscellaneous/GroupChatModal";
+// import GroupChatModal from "./miscellaneous/GroupChatModal";
 
 const Mychats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
@@ -63,7 +63,7 @@ const Mychats = ({ fetchAgain }) => {
         alignItems="center"
       >
         My Chats
-        <Button
+        {/* <Button
           display="flex"
           fontSize={{ base: "17px", md: "10px", lg: "17px" }}
           variant="outline"
@@ -73,7 +73,7 @@ const Mychats = ({ fetchAgain }) => {
           }}
         >
           New Group Chat
-        </Button>
+        </Button> */}
       </Box>
       <Box
         display="flex"
@@ -87,32 +87,34 @@ const Mychats = ({ fetchAgain }) => {
       >
         {chats ? (
           <Stack overflowY="scroll">
-            {chats.map((chat) => (
-              <Box
-                onClick={() => setSelectedChat(chat)}
-                cursor="pointer"
-                bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                color={selectedChat === chat ? "white" : "black"}
-                px={3}
-                py={2}
-                borderRadius="lg"
-                key={chat._id}
-              >
-                <Text>
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
-                </Text>
-                {chat.latestMessage && (
-                  <Text fontSize="xs">
-                    <b>{chat.latestMessage.sender.name} : </b>
-                    {chat.latestMessage.content.length > 50
-                      ? chat.latestMessage.content.substring(0, 51) + "..."
-                      : chat.latestMessage.content}
+            {chats
+              .filter((chat) => chat.latestMessage) // Filter chats with latestMessage
+              .map((chat) => (
+                <Box
+                  onClick={() => setSelectedChat(chat)}
+                  cursor="pointer"
+                  bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
+                  color={selectedChat === chat ? "white" : "black"}
+                  px={3}
+                  py={2}
+                  borderRadius="lg"
+                  key={chat._id}
+                >
+                  <Text>
+                    {!chat.isGroupChat
+                      ? getSender(loggedUser, chat.users)
+                      : chat.chatName}
                   </Text>
-                )}
-              </Box>
-            ))}
+                  {chat.latestMessage && (
+                    <Text fontSize="xs">
+                      <b>{chat.latestMessage.sender.name} : </b>
+                      {chat.latestMessage.content.length > 50
+                        ? chat.latestMessage.content.substring(0, 51) + "..."
+                        : chat.latestMessage.content}
+                    </Text>
+                  )}
+                </Box>
+              ))}
           </Stack>
         ) : (
           <ChatLoading />

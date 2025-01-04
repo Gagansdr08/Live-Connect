@@ -30,7 +30,7 @@ const Homepage = () => {
           color="black"
           textAlign="center"
         >
-          LiveConnect
+          LiveConnect 🌐🤝
         </Text>
       </Box>
       <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
