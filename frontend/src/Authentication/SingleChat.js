@@ -11,7 +11,7 @@ import io from "socket.io-client";
 const ENDPOINT = "http://localhost:5001";
 var socket, selectedChatCompare;
 
-const SingleChat = () => {
+const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const { selectedChat, setSelectedChat, user, notification, setNotification } =
     ChatState();
   const [messages, setMessages] = useState([]);
@@ -37,9 +37,6 @@ const SingleChat = () => {
         `/app/message/${selectedChat._id}`,
         config
       );
-
-      console.log(data);
-
       setMessages(data);
       setLoading(false);
 
@@ -63,13 +60,30 @@ const SingleChat = () => {
     // socket.on("typing", () => setIsTyping(true));
     // socket.on("stop typing", () => setIsTyping(false));
 
-    // eslint-disable-next-line
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     fetchMessages();
     selectedChatCompare = selectedChat;
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedChat]); // this is whenever user changes the chat , then also we are calling fetchMessages
+
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved) => {
+      if (
+        !selectedChatCompare || // if chat is not selected or doesn't match current chat
+        selectedChatCompare._id !== newMessageRecieved.chat._id
+      ) {
+        if (!notification.includes(newMessageRecieved)) {
+          setNotification([newMessageRecieved, ...notification]);
+          setFetchAgain(!fetchAgain);
+        }
+      } else {
+        setMessages([...messages, newMessageRecieved]);
+      }
+    });
+  });
 
   const sendmessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
@@ -107,21 +121,10 @@ const SingleChat = () => {
   };
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
+    if (!socketConnected) return;
 
     //typing indicatar logic
   };
-
-  useEffect(() => {
-    socket.on("message recieved", (newMessageRecieved) => {
-      if (
-        !selectedChatCompare || // if chat is not selected or doesn't match current chat
-        selectedChatCompare._id !== newMessageRecieved.chat._id
-      ) {
-      } else {
-        setMessages([...messages, newMessageRecieved]);
-      }
-    });
-  });
 
   return (
     <>
@@ -195,7 +198,7 @@ const SingleChat = () => {
           height="100%"
         >
           <Text fontSize="3xl" fontFamily="Work Sans" pb={3}>
-            Click on the user to start chatting
+            Click / Search the user to start chatting 💬
           </Text>
         </Box>
       )}

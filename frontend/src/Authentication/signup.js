@@ -25,8 +25,8 @@ const Signup = () => {
     if (!name || !email || !password || !confirmpassword) {
       toaster.create({
         title: "Please Fill all the Feilds",
-        status: "warning",
-        duration: 5000,
+        type: "error",
+        duration: 4000,
         isClosable: true,
         position: "bottom",
       });
@@ -35,8 +35,8 @@ const Signup = () => {
     if (password !== confirmpassword) {
       toaster.create({
         title: "Passwords Do Not Match",
-        status: "warning",
-        duration: 5000,
+        type: "error",
+        duration: 4000,
         isClosable: true,
         position: "bottom",
       });
@@ -61,8 +61,8 @@ const Signup = () => {
       console.log(data);
       toaster.create({
         title: "Registration Successful",
-        status: "success",
-        duration: 5000,
+        type: "success",
+        duration: 4000,
         isClosable: true,
         position: "bottom",
       });
@@ -74,7 +74,7 @@ const Signup = () => {
         title: "Error Occured!",
         description: error.response.data.message,
         status: "error",
-        duration: 5000,
+        duration: 4000,
         isClosable: true,
         position: "bottom",
       });
@@ -111,7 +111,16 @@ const Signup = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <Button h="1.75rem" size="sm" onClick={handleClick}>
+          <Button
+            h="1.75rem"
+            size="sm"
+            onClick={handleClick}
+            variant="outline"
+            color="black"
+            _hover={{
+              color: "white",
+            }}
+          >
             {show ? "Hide" : "Show"}
           </Button>
         </Field>
@@ -125,7 +134,16 @@ const Signup = () => {
             onChange={(e) => setConfirmpassword(e.target.value)}
           />
 
-          <Button h="1.75rem" size="sm" onClick={handleClick}>
+          <Button
+            h="1.75rem"
+            size="sm"
+            onClick={handleClick}
+            variant="outline"
+            color="black"
+            _hover={{
+              color: "white",
+            }}
+          >
             {show ? "Hide" : "Show"}
           </Button>
         </Field>

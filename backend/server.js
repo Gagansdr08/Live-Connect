@@ -5,7 +5,7 @@ const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoute");
 const chatRoutes = require("./routes/chatRoutes");
 const cors = require("cors");
-
+const path = require("path");
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 const MessageRoutes = require("./routes/MessageRoutes");
 
@@ -28,6 +28,24 @@ app.get("/app/chat", (req, res) => {
 app.use("/app/user", userRoutes);
 app.use("/app/chat", chatRoutes);
 app.use("/app/message", MessageRoutes);
+
+//----------------------Deployement-------------------------
+
+const __dirname1 = path.resolve();
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "/frontend/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running successfully..");
+  });
+}
+
+//----------------------Deployement-------------------------
 
 app.get("/app/chat/:id", (req, res) => {
   const singlechat = chats.find((c) => c._id == req.params.id);
@@ -62,7 +80,11 @@ io.on("connection", (socket) => {
     chat.users.forEach((user) => {
       if (user._id == newMessageRecieved.sender._id) return;
 
-      socket.in(user._id).emit("message recieved", newMessageRecieved);
+      socket.to(user._id).emit("message recieved", newMessageRecieved);
     });
+  });
+  socket.off("setup", () => {
+    console.log("USER DISCONNECTED");
+    socket.leave(userData._id);
   });
 });

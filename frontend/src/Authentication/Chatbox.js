@@ -3,7 +3,7 @@ import { ChatState } from "../context/chatProvider";
 import { Box } from "@chakra-ui/react";
 import SingleChat from "./SingleChat";
 
-const Chatbox = () => {
+const Chatbox = ({ fetchAgain, setFetchAgain }) => {
   const { selectedChat } = ChatState();
   return (
     <Box
@@ -16,8 +16,7 @@ const Chatbox = () => {
       borderRadius="lg"
       borderWidth="1px"
     >
-      <SingleChat />
-      {/* fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} */}
+      <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
     </Box>
   );
 };
