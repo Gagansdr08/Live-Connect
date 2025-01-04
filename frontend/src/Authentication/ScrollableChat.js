@@ -1,5 +1,5 @@
-import { Avatar } from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/components/ui/avatar";
-import { Tooltip } from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/components/ui/tooltip.jsx";
+import { Avatar } from "../components/ui/avatar";
+import { Tooltip } from "../components/ui/tooltip.jsx";
 import React from "react";
 // import ScrollableFeed from "react-scrollable-feed";
 import {

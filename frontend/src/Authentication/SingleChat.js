@@ -4,7 +4,7 @@ import { Box, Button, Input, Spinner, Text } from "@chakra-ui/react";
 import { toaster } from "../components/ui/toaster";
 import { getSender } from "../Authentication/Chatlogics";
 import axios from "axios";
-import "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/Authentication/styles.css";
+import "./styles.css";
 import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
 

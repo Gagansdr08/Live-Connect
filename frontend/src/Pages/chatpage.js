@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { useState } from "react";
 import Chatbox from "../Authentication/Chatbox";
-import Mychats from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/Authentication/Mychats.js";
+import Mychats from "../Authentication/Mychats";
 import { SideDrawer } from "../Authentication/miscellaneous/SideDrawer";
 import { ChatState } from "../context/chatProvider";
 

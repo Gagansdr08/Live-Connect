@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 
 // Helper function to safely access deep properties
+
 function _optionalChain(ops) {
   let lastAccessLHS = undefined;
   let value = ops[0];
@@ -23,7 +24,9 @@ function _optionalChain(ops) {
       lastAccessLHS = value;
       value = fn(value);
     } else if (op === "call" || op === "optionalCall") {
+      // eslint-disable-next-line
       value = fn((...args) => value.call(lastAccessLHS, ...args));
+      // eslint-disable-next-line
       lastAccessLHS = undefined;
     }
   }
