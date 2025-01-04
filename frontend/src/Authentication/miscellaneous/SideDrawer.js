@@ -1,7 +1,7 @@
 import { Badge, Box, Button, Text } from "@chakra-ui/react";
-import { Tooltip } from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/components/ui/tooltip.jsx";
+import { Tooltip } from "../../components/ui/tooltip.jsx";
 import { ChatState } from "../../context/chatProvider";
-import { Avatar } from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/components/ui/avatar";
+import { Avatar } from "../../components/ui/avatar";
 import { useHistory } from "react-router";
 import { Input } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -11,7 +11,7 @@ import {
   MenuItem,
   MenuRoot,
   MenuTrigger,
-} from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/components/ui/menu";
+} from "../../components/ui/menu";
 import {
   DrawerActionTrigger,
   DrawerBackdrop,
@@ -22,9 +22,9 @@ import {
   DrawerHeader,
   DrawerRoot,
   DrawerTitle,
-} from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/components/ui/drawer.jsx";
+} from "../../components/ui/drawer";
 import axios from "axios";
-import { toaster } from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/components/ui/toaster.jsx";
+import { toaster } from "../../components/ui/toaster";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
 import { getSender } from "../Chatlogics";

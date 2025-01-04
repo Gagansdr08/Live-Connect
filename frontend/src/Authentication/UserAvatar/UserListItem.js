@@ -1,4 +1,4 @@
-import { Avatar } from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/components/ui/avatar";
+import { Avatar } from "../../components/ui/avatar";
 import { Box, Text } from "@chakra-ui/react";
 // import { ChatState } from "/Users/gagan_sadhrush/randompyprograms/Chatapp_MERN/frontend/src/context/chatProvider.js";
 
